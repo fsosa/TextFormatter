@@ -37,7 +37,7 @@ then
 fi
 
 # 
-if [ "$TRAVIS_PHP_VERSION" != '5.3.3' ]
+if [ "$TRAVIS_PHP_VERSION" = '5.3.3' ]
 then
 	echo "Switching Oracle JDK"
 	jdk_switcher use oraclejdk7
