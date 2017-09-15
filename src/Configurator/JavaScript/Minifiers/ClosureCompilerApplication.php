@@ -101,7 +101,7 @@ class ClosureCompilerApplication extends Minifier
 		     . ' --js ' . escapeshellarg($inFile)
 		     . ' --js_output_file ' . escapeshellarg($outFile);
 
-		exec($cmd . ' ', $output, $return);
+		exec($cmd . ' 2>&1', $output, $return);
 		unlink($inFile);
 
 		if (file_exists($outFile))
@@ -112,7 +112,7 @@ class ClosureCompilerApplication extends Minifier
 
 		if (!empty($return))
 		{
-			throw new RuntimeException('An error occured during minification');
+			throw new RuntimeException('An error occured during minification: ' . $output);
 		}
 
 		return $src;
