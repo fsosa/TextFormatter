@@ -1,25 +1,10 @@
 sudo: false
+dist: precise
 language: php
 matrix:
   fast_finish: true
   include:
-    - php: 5.6
-      env: COVERAGE=1
     - php: 5.3.3
-      env: OPTIMIZE=1
-      dist: precise
-    - php: 5.4
-      env: OPTIMIZE=1
-    - php: 5.5
-      env: OPTIMIZE=1
-    - php: 5.6
-      env: OPTIMIZE=1
-    - php: 7.0
-      env: OPTIMIZE=1
-    - php: 7.1
-      env: OPTIMIZE=1
-    - php: nightly
-      env: OPTIMIZE=1
   allow_failures:
     - php: nightly
       env: OPTIMIZE=1
