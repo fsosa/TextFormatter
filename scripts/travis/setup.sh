@@ -35,3 +35,10 @@ then
 	echo "Starting webserver"
 	php -S localhost:8000 -d "always_populate_raw_post_data=-1" -t ../../tests 2>/dev/null &
 fi
+
+# 
+if [ "$TRAVIS_PHP_VERSION" != '5.3.3' ]
+then
+	echo "Switching Oracle JDK"
+	jdk_switcher use oraclejdk7
+fi
