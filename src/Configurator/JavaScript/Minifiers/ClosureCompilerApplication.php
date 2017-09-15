@@ -112,7 +112,7 @@ class ClosureCompilerApplication extends Minifier
 
 		if (!empty($return))
 		{
-			throw new RuntimeException('An error occured during minification: ' . implode('', $output));
+			throw new RuntimeException('An error occured during minification: ' . implode("\n", $output));
 		}
 
 		return $src;
