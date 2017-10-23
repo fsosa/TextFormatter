@@ -11,6 +11,15 @@ use s9e\TextFormatter\Tests\Test;
 
 /**
 * @covers s9e\TextFormatter\Plugins\Litedown\Parser
+* @covers s9e\TextFormatter\Plugins\Litedown\Parser\Passes\Blocks
+* @covers s9e\TextFormatter\Plugins\Litedown\Parser\Passes\Emphasis
+* @covers s9e\TextFormatter\Plugins\Litedown\Parser\Passes\ForcedLineBreaks
+* @covers s9e\TextFormatter\Plugins\Litedown\Parser\Passes\Images
+* @covers s9e\TextFormatter\Plugins\Litedown\Parser\Passes\InlineCode
+* @covers s9e\TextFormatter\Plugins\Litedown\Parser\Passes\LinkReferences
+* @covers s9e\TextFormatter\Plugins\Litedown\Parser\Passes\Links
+* @covers s9e\TextFormatter\Plugins\Litedown\Parser\Passes\Strikethrough
+* @covers s9e\TextFormatter\Plugins\Litedown\Parser\Passes\Superscript
 */
 class ParserTest extends Test
 {
