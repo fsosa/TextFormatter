@@ -13,6 +13,7 @@ class BlocksTest extends AbstractTest
 	public function getParsingTests()
 	{
 		return self::fixTests([
+
 			// Paragraphs and quotes
 			[
 				'foo',
@@ -1337,14 +1338,6 @@ class BlocksTest extends AbstractTest
 					'',
 					'<li><p>three</p></li></ul>'
 				],
-			],
-			[
-				'[Link text](http://example.org)',
-				'<p><a href="http://example.org">Link text</a></p>'
-			],
-			[
-				'[Link text](http://example.org "Link title")',
-				'<p><a href="http://example.org" title="Link title">Link text</a></p>'
 			],
 			[
 				[
