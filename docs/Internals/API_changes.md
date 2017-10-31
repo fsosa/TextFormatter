@@ -10,6 +10,8 @@ The `HostedMinifier` and `RemoteCache` minifiers have been removed.
 
 The `metaElementsRegexp` property of `s9e\TextFormatter\Renderer` has been removed. Meta elements `e`, `i` and `s` are now always removed from the source XML before rendering.
 
+`s9e\TextFormatter\Configurator\Helpers\XPathHelper::export()` has been moved to `s9e\TextFormatter\Utils\XPath::export()`.
+
 
 ## 0.11.0
 

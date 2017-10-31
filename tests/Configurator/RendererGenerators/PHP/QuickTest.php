@@ -12,6 +12,7 @@ use s9e\TextFormatter\Tests\Test;
 /**
 * @requires extension tokenizer
 * @covers s9e\TextFormatter\Configurator\RendererGenerators\PHP\Quick
+* @covers s9e\TextFormatter\Renderers\PHP
 */
 class QuickTest extends Test
 {
@@ -140,7 +141,11 @@ class QuickTest extends Test
 
 		if (!class_exists($className))
 		{
+<<<<<<< HEAD
 			eval('class ' . $className . ' extends \\s9e\\TextFormatter\\Renderer{public function renderRichText($xml){return $this->renderQuick($xml);}' . $php . '}');
+=======
+			eval('class ' . $className . ' extends s9e\\TextFormatter\\Renderers\\PHP{public function renderNode(DOMNode $node){}' . $php . '}');
+>>>>>>> WiP
 		}
 
 		$renderer = new $className;
@@ -540,14 +545,14 @@ class QuickTest extends Test
 				'<xsl:value-of select="@foo"/>',
 				[[
 					'php',
-					'$attributes+=[\'foo\'=>null];$html=str_replace(\'&quot;\',\'"\',$attributes[\'foo\']);'
+					'$attributes+=[\'foo\'=>null];$html.=str_replace(\'&quot;\',\'"\',$attributes[\'foo\']);'
 				]]
 			],
 			[
 				'<b><xsl:if test="@foo"><xsl:attribute name="class">foo</xsl:attribute></xsl:if></b>',
 				[[
 					'php',
-					'$html=\'<b\';if(isset($attributes[\'foo\'])){$html.=\' class="foo"\';}$html.=\'></b>\';'
+					'$html.=\'<b\';if(isset($attributes[\'foo\'])){$html.=\' class="foo"\';}$html.=\'></b>\';'
 				]]
 			],
 			[
@@ -565,7 +570,7 @@ class QuickTest extends Test
 				[
 					[
 						'php',
-						"\$html='<blockquote';if(!isset(\$attributes['author'])){\$html.=' class=\"uncited\"';}\$html.='><div>';if(isset(\$attributes['author'])){\$html.='<cite>'.str_replace('&quot;','\"',\$attributes['author']).' wrote:</cite>';}"
+						"\$html.='<blockquote';if(!isset(\$attributes['author'])){\$html.=' class=\"uncited\"';}\$html.='><div>';if(isset(\$attributes['author'])){\$html.='<cite>'.str_replace('&quot;','\"',\$attributes['author']).' wrote:</cite>';}"
 					],
 					['static', '</div></blockquote>']
 				]
@@ -608,11 +613,11 @@ class QuickTest extends Test
 				[
 					[
 						'php',
-						'$attributes+=[\'foo\'=>null];$html=\'START\';if($attributes[\'foo\']==1){$html.=\'[1]\';if($attributes[\'foo\']==2){$html.=\'[2]\';}else{$html.=\'[3]\';}}else{$html.=\'[o]\';if($attributes[\'foo\']==4){$html.=\'[4]\';}else{$html.=\'[5]\';}}self::$attributes[]=$attributes;'
+						'$attributes+=[\'foo\'=>null];$html.=\'START\';if($attributes[\'foo\']==1){$html.=\'[1]\';if($attributes[\'foo\']==2){$html.=\'[2]\';}else{$html.=\'[3]\';}}else{$html.=\'[o]\';if($attributes[\'foo\']==4){$html.=\'[4]\';}else{$html.=\'[5]\';}}$this->attributes[]=$attributes;'
 					],
 					[
 						'php',
-						'$attributes=array_pop(self::$attributes);$html=\'\';if($attributes[\'foo\']==1){if($attributes[\'foo\']==2){$html.=\'[/2]\';}else{$html.=\'[/3]\';}$html.=\'[/1]\';}else{if($attributes[\'foo\']==4){$html.=\'[/4]\';}else{$html.=\'[/5]\';}$html.=\'[/o]\';}$html.=\'END\';'
+						'$attributes=array_pop($this->attributes);if($attributes[\'foo\']==1){if($attributes[\'foo\']==2){$html.=\'[/2]\';}else{$html.=\'[/3]\';}$html.=\'[/1]\';}else{if($attributes[\'foo\']==4){$html.=\'[/4]\';}else{$html.=\'[/5]\';}$html.=\'[/o]\';}$html.=\'END\';'
 					]
 				],
 				function ()
@@ -654,11 +659,11 @@ class QuickTest extends Test
 			],
 			[
 				'<xsl:value-of select="$FOO"/>',
-				[['php', '$html=htmlspecialchars($this->params[\'FOO\'],0);']]
+				[['php', '$html.=htmlspecialchars($this->params[\'FOO\'],0);']]
 			],
 			[
 				'<xsl:comment><xsl:value-of select="@content"/></xsl:comment>',
-				[['php', "\$attributes+=['content'=>null];\$html='<!--'.str_replace('&quot;','\"',\$attributes['content']).'-->';"]]
+				[['php', "\$attributes+=['content'=>null];\$html.='<!--'.str_replace('&quot;','\"',\$attributes['content']).'-->';"]]
 			],
 			[
 				self::ws(
@@ -671,7 +676,7 @@ class QuickTest extends Test
 						</xsl:otherwise>
 					</xsl:choose>'
 				),
-				[['php', '$html=\'\';if($textContent===\':)\'){$html.=\'<img src="happy.png">\';}else{$html.=htmlspecialchars($textContent,0);}']],
+				[['php', '$textContent=$this->getQuickTextContent($xml);if($textContent===\':)\'){$html.=\'<img src="happy.png">\';}else{$html.=htmlspecialchars($textContent,0);}']],
 				function ()
 				{
 					if (version_compare(PCRE_VERSION, '8.13', '<'))
@@ -685,7 +690,7 @@ class QuickTest extends Test
 				[
 					[
 						'php',
-						'$attributes+=[\'foo\'=>null];$html=\'<div>\'.str_replace(\'&quot;\',\'"\',$attributes[\'foo\']);'
+						'$attributes+=[\'foo\'=>null];$html.=\'<div>\'.str_replace(\'&quot;\',\'"\',$attributes[\'foo\']);'
 					],
 					[
 						'static',
@@ -698,11 +703,11 @@ class QuickTest extends Test
 				[
 					[
 						'php',
-						'$attributes+=[\'foo\'=>null];$html=\'<div>\';self::$attributes[]=$attributes;'
+						'$attributes+=[\'foo\'=>null];$html.=\'<div>\';$this->attributes[]=$attributes;'
 					],
 					[
 						'php',
-						"\$attributes=array_pop(self::\$attributes);\$html=str_replace('&quot;','\"',\$attributes['foo']).'</div>';"
+						"\$attributes=array_pop(\$this->attributes);\$html.=str_replace('&quot;','\"',\$attributes['foo']).'</div>';"
 					]
 				]
 			],
@@ -711,11 +716,11 @@ class QuickTest extends Test
 				[
 					[
 						'php',
-						'$attributes+=[\'foo\'=>null];$html=\'\';self::$attributes[]=$attributes;'
+						'$attributes+=[\'foo\'=>null];$this->attributes[]=$attributes;'
 					],
 					[
 						'php',
-						"\$attributes=array_pop(self::\$attributes);\$html=str_replace('&quot;','\"',\$attributes['foo']);"
+						"\$attributes=array_pop(\$this->attributes);\$html.=str_replace('&quot;','\"',\$attributes['foo']);"
 					]
 				]
 			],
@@ -749,7 +754,7 @@ class QuickTest extends Test
 					'B' => '<b><xsl:if test="@foo">B</xsl:if><xsl:apply-templates/></b>',
 					'X' => '<b><xsl:if test="@foo">X</xsl:if><xsl:apply-templates/></b>'
 				],
-				'if($qb===0){$html=\'<b>\';if(isset($attributes[\'foo\'])){$html.=\'B\';}}else{$html=\'<b>\';if(isset($attributes[\'foo\'])){$html.=\'X\';}}'
+				'if($qb===0){$html.=\'<b>\';if(isset($attributes[\'foo\'])){$html.=\'B\';}}else{$html.=\'<b>\';if(isset($attributes[\'foo\'])){$html.=\'X\';}}'
 			],
 			[
 				[
@@ -757,7 +762,7 @@ class QuickTest extends Test
 					'X' => '<b><xsl:if test="@foo">X</xsl:if><xsl:apply-templates/></b>',
 					'Y' => '<b><xsl:if test="@foo">X</xsl:if><xsl:apply-templates/></b>'
 				],
-				'if($qb===0){$html=\'<b>\';if(isset($attributes[\'foo\'])){$html.=\'B\';}}else{$html=\'<b>\';if(isset($attributes[\'foo\'])){$html.=\'X\';}}'
+				'if($qb===0){$html.=\'<b>\';if(isset($attributes[\'foo\'])){$html.=\'B\';}}else{$html.=\'<b>\';if(isset($attributes[\'foo\'])){$html.=\'X\';}}'
 			],
 			[
 				[
@@ -772,11 +777,11 @@ class QuickTest extends Test
 					'B' => '<b><xsl:if test="@foo">B</xsl:if><xsl:apply-templates/></b>',
 					'X' => '<xsl:apply-templates/><xsl:apply-templates/>'
 				],
-				"public \$quickRenderingTest='(<X[ />])';"
+				"\$quickRenderingTest='(<(?:[!?]|X[ />]))';"
 			],
 			[
 				['X' => '<xsl:value-of select="@x"/>'],
-				"\$html=str_replace('&quot;','\"',\$attributes['x']);"
+				"\$html.=str_replace('&quot;','\"',\$attributes['x']);"
 			],
 			[
 				['X' => '<xsl:if test="@x"><hr title="{@x}"/></xsl:if>'],
@@ -961,7 +966,7 @@ class QuickTest extends Test
 			],
 			[
 				['X' => '<xsl:if test="@*">Y</xsl:if>'],
-				'if(self::hasNonNullValues($attributes)){$html.=\'Y\';}'
+				'if($this->hasNonNullValues($attributes)){$html.=\'Y\';}'
 			],
 		];
 	}
