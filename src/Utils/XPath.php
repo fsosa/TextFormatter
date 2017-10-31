@@ -14,8 +14,8 @@ abstract class XPath
 	/**
 	* Export a literal as an XPath expression
 	*
-	* @param  float|integer|string $value Literal, e.g. "foo"
-	* @return string                      XPath expression, e.g. "'foo'"
+	* @param  mixed  $value Literal, e.g. "foo"
+	* @return string        XPath expression, e.g. "'foo'"
 	*/
 	public static function export($value)
 	{
@@ -33,7 +33,7 @@ abstract class XPath
 			return preg_replace('(\\.?0+$)', '', sprintf('%F', $value));
 		}
 
-		return self::exportString($value);
+		return self::exportString((string) $value);
 	}
 
 	/**
