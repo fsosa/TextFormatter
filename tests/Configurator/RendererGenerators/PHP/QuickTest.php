@@ -141,11 +141,7 @@ class QuickTest extends Test
 
 		if (!class_exists($className))
 		{
-<<<<<<< HEAD
-			eval('class ' . $className . ' extends \\s9e\\TextFormatter\\Renderer{public function renderRichText($xml){return $this->renderQuick($xml);}' . $php . '}');
-=======
 			eval('class ' . $className . ' extends s9e\\TextFormatter\\Renderers\\PHP{public function renderNode(DOMNode $node){}' . $php . '}');
->>>>>>> WiP
 		}
 
 		$renderer = new $className;
