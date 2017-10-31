@@ -14,8 +14,8 @@ abstract class XPath
 	/**
 	* Export a literal as an XPath expression
 	*
-	* @param  mixed  $value Literal, e.g. "foo"
-	* @return string        XPath expression, e.g. "'foo'"
+	* @param  float|integer|string $value Literal, e.g. "foo"
+	* @return string                      XPath expression, e.g. "'foo'"
 	*/
 	public static function export($value)
 	{

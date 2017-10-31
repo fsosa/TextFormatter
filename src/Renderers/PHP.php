@@ -200,7 +200,7 @@ abstract class PHP extends Renderer
 	* This stub should be overwritten by generated renderers
 	*
 	* @param  string[] $m
-	* @return void
+	* @return string
 	*/
 	protected function renderQuickCallback(array $m)
 	{
@@ -274,6 +274,7 @@ abstract class PHP extends Renderer
 		}
 		catch (RuntimeException $e)
 		{
+			// Do nothing
 		}
 
 		$dom         = $this->loadXML($xml);
