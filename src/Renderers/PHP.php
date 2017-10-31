@@ -69,16 +69,7 @@ abstract class PHP extends Renderer
 
 	public function __sleep()
 	{
-		$this->reset();
-		$props = get_object_vars($this);
-		unset($props['dynamic']);
-		unset($props['metaElementsRegexp']);
-		unset($props['quickBranches']);
-		unset($props['quickRegexp']);
-		unset($props['quickRenderingTest']);
-		unset($props['static']);
-
-		return array_keys($props);
+		return ['enableQuickRenderer', 'params'];
 	}
 
 	/**
