@@ -446,11 +446,6 @@ class Quick
 			return;
 		}
 
-		if (strpos($php, "\$this->out.='';") !== false)
-		{
-			die($php);
-		}
-
 		$php = str_replace('$this->out', '$html', $php);
 
 		// Expression that matches a $node->getAttribute() call and captures its string argument
